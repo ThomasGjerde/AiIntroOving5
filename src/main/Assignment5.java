@@ -220,8 +220,23 @@ public class Assignment5 {
 		 * arcs that should be visited.
 		 */
 		public boolean inference(VariablesToDomainsMapping assignment, ArrayList<Pair<String>> queue) {
-			// TODO: IMPLEMENT THIS
-			return false;
+			while(!queue.isEmpty()){
+				Pair<String> pair = queue.get(0);
+				queue.remove(0);
+				if(revise(assignment,pair.x,pair.y)){
+					if(assignment.get(pair.x).size() == 0){
+						return false;
+					}
+				}
+				for(Pair<String> p : this.getAllNeighboringArcs(pair.x)){
+					System.out.println(assignment.get(pair.y));
+					System.out.println(p);
+					if(assignment.get(pair.y).contains(p.x)){
+						queue.add(p);
+					}
+				}
+			}
+			return true;
 		}
 
 		/**
@@ -234,8 +249,18 @@ public class Assignment5 {
 		 * 'assignment'.
 		 */
 		public boolean revise(VariablesToDomainsMapping assignment, String i, String j) {
-			// TODO: IMPLEMENT THIS
-			return false;
+			boolean ret = false;
+			ArrayList<String> toBeRemoved = new ArrayList<String>();
+			for(String s : assignment.get(i)){
+				if(assignment.get(j).size() == 1 && assignment.get(j).get(0).equals(s)){
+					toBeRemoved.add(s);
+					ret = true;
+				}
+			}
+			for(String s : toBeRemoved){
+				assignment.get(i).remove(s);
+			}
+			return ret;
 		}
 	}
 
@@ -357,10 +382,7 @@ public class Assignment5 {
 	public static void main(String[] args){
 		CSP csp = createSudokuCSP("input/easy.txt");
 		printSudokuSolution(csp.backtrackingSearch());
-		/*
-		for(int i = 0; i < csp.variables.size(); i++){
-			System.out.println(csp.domains.get(csp.variables.get(i)));
-		}
-		*/
+		
+		
 	}
 }
