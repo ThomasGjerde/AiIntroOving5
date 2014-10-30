@@ -234,12 +234,21 @@ public class Assignment5 {
 		 * values has a length greater than one.
 		 */
 		public String selectUnassignedVariable(VariablesToDomainsMapping assignment) {
+			int smallest = 100;
+			int index = -1;
 			for(int i = 0; i < this.variables.size(); i++){
 				if((this.domains.get(this.variables.get(i))).size() > 1){
-					return this.variables.get(i);
+					if((this.domains.get(this.variables.get(i))).size() < smallest){
+						smallest = this.domains.get(this.variables.get(i)).size();
+						index = i;
+					}
 				}
 			}
-			return "";
+			if(index > -1){
+				return this.variables.get(index);
+			}else{
+				return "";
+			}
 		}
 
 		/**
