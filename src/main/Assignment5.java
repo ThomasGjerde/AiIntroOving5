@@ -24,6 +24,8 @@ public class Assignment5 {
 	}
 
 	public static class CSP {
+		public int timesBacktracked = 0;
+		public int timesFailed = 0;
 		@SuppressWarnings("unchecked")
 		private VariablesToDomainsMapping deepCopyAssignment(VariablesToDomainsMapping assignment) {
 			VariablesToDomainsMapping copy = new VariablesToDomainsMapping();
@@ -194,10 +196,37 @@ public class Assignment5 {
 		 * that took place in previous iterations of the loop.
 		 */
 		public VariablesToDomainsMapping backtrack(VariablesToDomainsMapping assignment) {
-			// TODO: IMPLEMENT THIS
-			return assignment;
+			timesBacktracked++;
+			if(checkVictory(assignment)){
+				return assignment;
+			}
+			String temp = selectUnassignedVariable(assignment);
+			for(String s : assignment.get(temp)){
+				VariablesToDomainsMapping newAssignment = deepCopyAssignment(assignment);
+				newAssignment.get(temp).clear();
+				newAssignment.get(temp).add(s);
+				boolean inferenced = this.inference(newAssignment, this.getAllNeighboringArcs(temp));
+				if(inferenced){
+					VariablesToDomainsMapping res = this.backtrack(newAssignment);
+					if(res != null){
+						return res;
+					}else{
+						
+					}
+				}
+			}
+			timesFailed++;
+			return null;
 		}
 
+		private boolean checkVictory(VariablesToDomainsMapping assignment){
+			for(int i = 0; i < this.variables.size(); i++){
+				if(assignment.get(this.variables.get(i)).size() != 1){
+					return false;
+				}
+			}
+			return true;
+		}
 		/**
 		 * The function 'Select-Unassigned-Variable' from the pseudocode in the
 		 * textbook. Should return the name of one of the variables in
