@@ -205,7 +205,11 @@ public class Assignment5 {
 		 * values has a length greater than one.
 		 */
 		public String selectUnassignedVariable(VariablesToDomainsMapping assignment) {
-			
+			for(int i = 0; i < this.variables.size(); i++){
+				if((this.domains.get(this.variables.get(i))).size() > 1){
+					return this.variables.get(i);
+				}
+			}
 			return "";
 		}
 
@@ -351,6 +355,12 @@ public class Assignment5 {
 		}
 	}
 	public static void main(String[] args){
-		//createSudokuCSP(")
+		CSP csp = createSudokuCSP("input/easy.txt");
+		printSudokuSolution(csp.backtrackingSearch());
+		/*
+		for(int i = 0; i < csp.variables.size(); i++){
+			System.out.println(csp.domains.get(csp.variables.get(i)));
+		}
+		*/
 	}
 }
