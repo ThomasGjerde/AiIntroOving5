@@ -259,6 +259,7 @@ public class Assignment5 {
 		 */
 		public boolean inference(VariablesToDomainsMapping assignment, ArrayList<Pair<String>> queue) {
 			while(!queue.isEmpty()){
+				System.out.println("Loop. Queue size: " + queue.size());
 				Pair<String> pair = queue.get(0);
 				queue.remove(0);
 				if(revise(assignment,pair.x,pair.y)){
@@ -267,9 +268,12 @@ public class Assignment5 {
 					}
 				}
 				for(Pair<String> p : this.getAllNeighboringArcs(pair.x)){
+					/*
 					System.out.println(assignment.get(pair.y));
 					System.out.println(p);
-					if(assignment.get(pair.y).contains(p.x)){
+					*/
+					if(!assignment.get(pair.y).contains(p.x)){ //Dinne vil aldri evaluere til false fordi den sammenligna verdia på forskjellig format
+						
 						queue.add(p);
 					}
 				}
