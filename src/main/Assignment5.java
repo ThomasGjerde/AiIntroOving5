@@ -266,17 +266,17 @@ public class Assignment5 {
 					if(assignment.get(pair.x).size() == 0){
 						return false;
 					}
-				}
-				for(Pair<String> p : this.getAllNeighboringArcs(pair.x)){
-					/*
-					System.out.println(assignment.get(pair.y));
-					System.out.println(p);
-					*/
-					if(!assignment.get(pair.y).contains(p.x)){ //Dinne vil aldri evaluere til false fordi den sammenligna verdia på forskjellig format
+					for(Pair<String> p : this.getAllNeighboringArcs(pair.x)){
+						/*
+						System.out.println(assignment.get(pair.y));
+						System.out.println(p);
+						*/
+							queue.add(p);
 						
-						queue.add(p);
+
 					}
 				}
+
 			}
 			return true;
 		}
@@ -291,6 +291,7 @@ public class Assignment5 {
 		 * 'assignment'.
 		 */
 		public boolean revise(VariablesToDomainsMapping assignment, String i, String j) {
+			System.out.println(i + "," + j);
 			boolean ret = false;
 			ArrayList<String> toBeRemoved = new ArrayList<String>();
 			for(String s : assignment.get(i)){
