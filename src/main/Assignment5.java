@@ -201,6 +201,7 @@ public class Assignment5 {
 				return assignment;
 			}
 			String temp = selectUnassignedVariable(assignment);
+			System.out.println("Temp: " + temp);
 			for(String s : assignment.get(temp)){
 				VariablesToDomainsMapping newAssignment = deepCopyAssignment(assignment);
 				newAssignment.get(temp).clear();
@@ -237,13 +238,12 @@ public class Assignment5 {
 			int smallest = 100;
 			int index = -1;
 			for(int i = 0; i < this.variables.size(); i++){
-				if((this.domains.get(this.variables.get(i))).size() > 1){
-					if((this.domains.get(this.variables.get(i))).size() < smallest){
-						smallest = this.domains.get(this.variables.get(i)).size();
-						index = i;
-					}
+				if(assignment.get(this.variables.get(i)).size() > 2 && assignment.get(this.variables.get(i)).size() < smallest){
+					smallest = assignment.get(this.variables.get(i)).size();
+					index = i;
 				}
 			}
+			System.out.println("Index: " + index);
 			if(index > -1){
 				return this.variables.get(index);
 			}else{
@@ -423,9 +423,10 @@ public class Assignment5 {
 		}
 	}
 	public static void main(String[] args){
-		CSP csp = createSudokuCSP("input/easy.txt");
+		CSP csp = createSudokuCSP("input/veryhard.txt");
 		printSudokuSolution(csp.backtrackingSearch());
-		
+		System.out.println("Times backtracked: " + csp.timesBacktracked);
+		System.out.println("Times failed: " + csp.timesFailed);
 		
 	}
 }
